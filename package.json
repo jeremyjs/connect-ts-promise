@@ -36,6 +36,6 @@
     "webpack-node-externals": "^1.5.4"
   },
   "dependencies": {
-    "connect-ts-api": "spotware/connect-ts-api#3.1.0"
+    "connect-ts-api": "spotware/connect-ts-api#v3.1.0"
   }
 }
