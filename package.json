@@ -1,6 +1,6 @@
 {
   "name": "connect-ts-promise",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Send and receive promise-based commands using spotware connect-ts-api",
   "main": "lib/connect-ts-promise.ts",
   "types": "lib/connect-ts-promise",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/madroneropaulo/connect-ts-promise.git"
+    "url": "git+https://github.com/spotware/connect-ts-promise.git"
   },
   "keywords": [
     "es6",
