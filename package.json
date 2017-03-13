@@ -1,6 +1,6 @@
 {
   "name": "connect-ts-promise",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Send and receive promise-based commands using spotware connect-ts-api",
   "main": "lib/connect-ts-promise.ts",
   "types": "lib/connect-ts-promise",
