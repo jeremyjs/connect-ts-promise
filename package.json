@@ -1,6 +1,6 @@
 {
   "name": "connect-ts-promise",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Send and receive promise-based commands using spotware connect-ts-api",
   "main": "lib/connect-ts-promise.ts",
   "types": "lib/connect-ts-promise",
@@ -36,6 +36,6 @@
     "webpack-node-externals": "^1.5.4"
   },
   "dependencies": {
-    "connect-ts-api": "spotware/connect-ts-api#v3.1.0"
+    "connect-ts-api": "spotware/connect-ts-api#v3.1.1"
   }
 }
