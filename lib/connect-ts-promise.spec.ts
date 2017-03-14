@@ -1,4 +1,4 @@
-import {IAdapter, IEncoderDecoder, IDataToSend, ISendRequestError, SendRequestError} from "connect-ts-api";
+import {IAdapter, IEncoderDecoder, IDataToSend} from "connect-ts-api";
 import {ConnectPromise, IErrorMessage, ConnectTsPromiseErrors} from "./connect-ts-promise";
 
 describe('Connect ts API test', function () {
@@ -22,6 +22,7 @@ describe('Connect ts API test', function () {
         let connectionParams = {
             encodeDecode,
             adapter,
+            instanceId: 'tests'
         };
         connection = new ConnectPromise(connectionParams);
     });

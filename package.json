@@ -1,12 +1,13 @@
 {
   "name": "connect-ts-promise",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Send and receive promise-based commands using spotware connect-ts-api",
   "main": "lib/connect-ts-promise.ts",
   "types": "lib/connect-ts-promise",
   "scripts": {
+    "build": "webpack",
     "lint": "tslint **/*.ts",
-    "test": "tsc lib/connect-ts-promise.spec.ts && jasmine"
+    "test": "webpack && jasmine"
   },
   "repository": {
     "type": "git",
@@ -29,13 +30,12 @@
     "@types/jasmine": "^2.5.40",
     "@types/node": "^6.0.58",
     "jasmine": "2.5.3",
+    "light-ts-loader": "^1.1.1",
     "tslint": "3.15.1",
-    "ts-loader": "^2.0.0",
-    "typescript": "2.1.4",
-    "webpack": "^2.2.1",
-    "webpack-node-externals": "^1.5.4"
+    "typescript": "2.2.1",
+    "webpack": "2.2.1"
   },
   "dependencies": {
-    "connect-ts-api": "spotware/connect-ts-api#v3.1.1"
+    "connect-ts-api": "spotware/connect-ts-api#v3.1.3"
   }
 }
