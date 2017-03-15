@@ -3,6 +3,8 @@ import {
     IMultiResponseParams
 } from "connect-ts-api";
 
+export * from 'connect-ts-api';
+
 export interface IErrorMessage {
     errorCode: ConnectTsPromiseErrors;
     description: string;
