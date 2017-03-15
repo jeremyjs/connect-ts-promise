@@ -19,7 +19,7 @@ export class ConnectPromise extends Connect {
      * response on consumer.
      */
     public sendGuaranteedCommand(payloadType: number, params) {
-        return this.sendGuaranteedCommandWithPayloadtype(payloadType, params);
+        return this.sendGuaranteedCommandWithPayloadtype(payloadType, params).then(msg => msg.payload);
     }
 
     /**
@@ -27,7 +27,7 @@ export class ConnectPromise extends Connect {
      * response on consumer.
      */
     public sendCommand(payloadType: number, params) {
-        return this.sendCommandWithPayloadtype(payloadType, params);
+        return this.sendCommandWithPayloadtype(payloadType, params).then(msg => msg.payload);
     }
 
     private getMultiresponseCommand(payloadType: number, payload: Object, resolve, reject): IMultiResponseParams {
@@ -42,7 +42,7 @@ export class ConnectPromise extends Connect {
                     };
                     reject(errToReject);
                 } else {
-                    resolve(result.payload);
+                    resolve(result);
                 }
                 return true;
             },
