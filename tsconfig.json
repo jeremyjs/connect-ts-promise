@@ -6,6 +6,19 @@
         "sourceMap": true,
         "module": "commonjs",
         "noEmitOnError": true,
-        "preserveConstEnums": true
-    }
+        "preserveConstEnums": true,
+      "typeRoots": [
+        "node_modules/@types"
+      ],
+      "lib": [
+        "dom",
+        "es2015",
+        "es2015.promise"
+      ],
+      "skipLibCheck": true
+    },
+  "exclude": [
+    "./lib",
+    "node_modules"
+  ]
 }

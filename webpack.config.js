@@ -1,15 +1,15 @@
 const path = require('path');
 
 const config = {
-  entry: './lib/connect-ts-promise.spec.ts',
+  entry: './test/connect-ts-promise.ts',
   target: 'node',
   node: {
     __dirname: false,
     __filename: false
   },
   output: {
-    path: path.resolve(__dirname, 'lib'),
-    filename: 'connect-ts-promise.spec.js'
+    path: path.resolve(__dirname, 'test'),
+    filename: 'connect-ts-promise.js'
   },
   resolve: {
     extensions: ['.ts', 'tsx', '.js']

@@ -1,7 +1,4 @@
-import {
-    Connect, IMessageWOMsgId, ISendRequestError, IMessage,
-    IMultiResponseParams
-} from "connect-ts-api";
+import {Connect, Message, SendCommand} from "connect-ts-api";
 
 export * from 'connect-ts-api';
 
@@ -15,65 +12,51 @@ export enum ConnectTsPromiseErrors {
     CONNECT_LAYER_ERROR = 2
 }
 
+export function getDescriptionFromObject(res: Object): string {
+    return Object.keys(res).reduce((prevRes, currKey) => {
+        return prevRes + `|${currKey}: ${res[currKey]} |`;
+    }, '');
+}
+
 export class ConnectPromise extends Connect {
-    /**
-     * @deprecated Too consumer-specific. can be confusing. Just use sendGuaranteedCommandWithPayloadtype and handle the
-     * response on consumer.
-     */
-    public sendGuaranteedCommand(payloadType: number, params) {
-        return this.sendGuaranteedCommandWithPayloadtype(payloadType, params).then(msg => msg.payload);
-    }
-
-    /**
-     * @deprecated Too consumer-specific. can be confusing. Just use sendCommandWithPayloadtype and handle the
-     * response on consumer.
-     */
-    public sendCommand(payloadType: number, params) {
-        return this.sendCommandWithPayloadtype(payloadType, params).then(msg => msg.payload);
-    }
-
-    private getMultiresponseCommand(payloadType: number, payload: Object, resolve, reject): IMultiResponseParams {
-        return {
-            payloadType,
-            payload,
-            onMessage: result => {
-                if (this.isError(result)) {
+    private checkErrorCallback: (messageToCheck: Message) => boolean = () => false;
+    private sendFormattedCommand(messageToSend: Message, guaranteed: boolean): Promise<Message> {
+        return new Promise((resolve, reject) => {
+            const commandToSend: SendCommand = {
+                message: messageToSend,
+                onResponse: (res) => {
+                    if (this.checkErrorCallback(res)) {
+                        const errorString = getDescriptionFromObject(res);
+                        const errToReject: IErrorMessage = {
+                            errorCode: ConnectTsPromiseErrors.RESPONSE_ERROR,
+                            description: `Server response error: ${errorString}`
+                        };
+                        reject(errToReject);
+                    } else {
+                        resolve(res);
+                    }
+                },
+                onError: (err) => {
                     const errToReject: IErrorMessage = {
-                        errorCode: ConnectTsPromiseErrors.RESPONSE_ERROR,
-                        description: 'Message is error type'
+                        errorCode: ConnectTsPromiseErrors.CONNECT_LAYER_ERROR,
+                        description: `Connection Layer error: ${err}`
                     };
                     reject(errToReject);
-                } else {
-                    resolve(result);
-                }
-                return true;
-            },
-            onError: (err: ISendRequestError) => {
-                const errToReject: IErrorMessage = {
-                    errorCode: ConnectTsPromiseErrors.CONNECT_LAYER_ERROR,
-                    description: err.description
-                };
-                reject(errToReject);
-            }
-        }
-    }
-
-    public sendCommandWithPayloadtype(payloadType: number, payload: Object): Promise<IMessageWOMsgId> {
-        return new Promise((resolve, reject) => {
-            const multiresponseCommand = this.getMultiresponseCommand(payloadType, payload, resolve, reject);
-            this.sendMultiresponseCommand(multiresponseCommand);
+                },
+                guaranteed
+            };
+            this.sendCommand(commandToSend);
         });
     }
-
-    public sendGuaranteedCommandWithPayloadtype(payloadType: number, payload: Object): Promise<IMessageWOMsgId> {
-        return new Promise((resolve, reject) => {
-            const multiresponseCommand = this.getMultiresponseCommand(payloadType, payload, resolve, reject);
-            this.sendGuaranteedMultiresponseCommand(multiresponseCommand);
-        });
+    public sendPromiseCommand(messageToSend: Message): Promise<Message> {
+        return this.sendFormattedCommand(messageToSend, false);
     }
 
-    public isError(messageToCheck: IMessage): boolean {
-        //Overwrite this method by your buisness logic
-        return false;
+    public sendPromiseGuaranteedCommand(messageToSend: Message): Promise<Message> {
+        return this.sendFormattedCommand(messageToSend, true);
+    }
+
+    public setErrorChecker(checkCallback: (messageToCheck: Message) => boolean): void {
+        this.checkErrorCallback = checkCallback;
     }
 }

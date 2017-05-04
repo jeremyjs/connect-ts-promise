@@ -15,16 +15,16 @@ Can be used to generate typed handlers for each response.
 * The response content that matches the request sent.
 
 ---
-#### sendCommandWithPayloadtype
+#### sendPromiseCommand
 ```
-sendCommandWithPayloadtype(payloadType: number, payload: Object): Promise<IMessageWOMsgId>
+sendPromiseCommand(payloadType: number, payload: Object): Promise<IMessageWOMsgId>
 ```
 Returns a promise that will be resolved as soon as one response is handled, and will be rejected if the response is of error type (handled by overwriting the Connect instance method isError). Is also rejected if a network error occurred and the request could not be sent
 
 ---
-#### sendGuaranteedCommandWithPayloadtype
+#### sendPromiseGuaranteedCommand
 ```
-sendGuaranteedCommandWithPayloadtype(payloadType: number, payload: Object): Promise<IMessageWOMsgId>
+sendPromiseGuaranteedCommand(payloadType: number, payload: Object): Promise<IMessageWOMsgId>
 ```
-The same as `sendCommandWithPayloadtype` but will be rejected only if the response is error type
+The same as `sendPromiseCommand` but will be rejected only if the response is error type
 or if the connection error is of type 1 or 2 (see `sendGuaranteedMultiresponseCommand`)
