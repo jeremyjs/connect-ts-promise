@@ -3,11 +3,11 @@ import {
     ConnectPromise, ConnectTsPromiseErrors, getDescriptionFromObject,
     IErrorMessage
 } from "../lib/connect-ts-promise";
-import {AdapterConnectionStates, ConnectionAdapter, IdMessage} from "connection-adapter";
+import {AdapterConnectionStates, IConnectionAdapter, IMessageWithId} from "connection-adapter";
 import {ReplaySubject} from "rxjs";
-import {Message} from "connect-ts-api";
+import {IMessage} from "connect-ts-api";
 
-const MESSAGE_TO_SEND: Message = {
+const MESSAGE_TO_SEND: IMessage = {
     payload: 'Test payload text',
     payloadType: 1
 };
@@ -15,18 +15,18 @@ const MESSAGE_TO_SEND: Message = {
 const MOCK_CLIENT_MSG_ID = '123asd';
 
 test.beforeEach(t => {
-    const adapterDataEmitter = new ReplaySubject<IdMessage>(1);
+    const adapterDataEmitter = new ReplaySubject<IMessageWithId>(1);
     const adapterState = new ReplaySubject<AdapterConnectionStates>(1);
     t.context.adapterDataEmitter = adapterDataEmitter;
     t.context.adapterState = adapterState;
-    const mockAdapter: ConnectionAdapter = {
-        send: (data: IdMessage) => {},
+    const mockAdapter: IConnectionAdapter = {
+        send: (data: IMessageWithId) => {},
         data: adapterDataEmitter,
         state: adapterState,
         connect: (url: string) => {}
     };
     const connectPromise = new ConnectPromise({adapter: mockAdapter, instanceId: 'connect-promise-test'});
-    connectPromise.setErrorChecker((msg: Message) => {
+    connectPromise.setErrorChecker((msg: IMessage) => {
         return msg.payloadType === 50; //50 is Error type
     });
     (<any> connectPromise).generateClientMsgId = () => {
@@ -39,7 +39,7 @@ test.beforeEach(t => {
 test('should resolve sendCommand', (t) => {
     const connect: ConnectPromise = t.context.connect;
     t.plan(1);
-    const dataEmitter: ReplaySubject<IdMessage> = t.context.adapterDataEmitter;
+    const dataEmitter: ReplaySubject<IMessageWithId> = t.context.adapterDataEmitter;
     const sendPromise = connect.sendPromiseCommand(MESSAGE_TO_SEND).then((res) => {
         t.deepEqual(res, MESSAGE_TO_SEND)
     }, (err: IErrorMessage) => {
@@ -56,7 +56,7 @@ test('should resolve sendCommand', (t) => {
 test('should reject sendCommand if Message type error', (t) => {
     const connect: ConnectPromise = t.context.connect;
     t.plan(1);
-    const dataEmitter: ReplaySubject<IdMessage> = t.context.adapterDataEmitter;
+    const dataEmitter: ReplaySubject<IMessageWithId> = t.context.adapterDataEmitter;
     const sendPromise = connect.sendPromiseCommand(MESSAGE_TO_SEND).then((res) => {
         t.fail(`Promise should be rejected, but got response:${getDescriptionFromObject(res)}`);
     }, (err: IErrorMessage) => {
@@ -88,7 +88,7 @@ test('should resolve sendGuaranteedCommand after connection issues', (t) => {
     const adapterState: ReplaySubject<AdapterConnectionStates> = t.context.adapterState;
     adapterState.next(AdapterConnectionStates.DISCONNECTED);
     t.plan(1);
-    const dataEmitter: ReplaySubject<IdMessage> = t.context.adapterDataEmitter;
+    const dataEmitter: ReplaySubject<IMessageWithId> = t.context.adapterDataEmitter;
     const sendGuaranteedPromise = connect.sendPromiseGuaranteedCommand(MESSAGE_TO_SEND).then((res) => {
         t.deepEqual(res, MESSAGE_TO_SEND)
     }, (err: IErrorMessage) => {
@@ -111,7 +111,7 @@ test('should reject sendGuaranteedCommand if Message type error', (t) => {
     const adapterState: ReplaySubject<AdapterConnectionStates> = t.context.adapterState;
     adapterState.next(AdapterConnectionStates.DISCONNECTED);
     t.plan(1);
-    const dataEmitter: ReplaySubject<IdMessage> = t.context.adapterDataEmitter;
+    const dataEmitter: ReplaySubject<IMessageWithId> = t.context.adapterDataEmitter;
     const sendGuaranteedPromise = connect.sendPromiseGuaranteedCommand(MESSAGE_TO_SEND).then((res) => {
         t.fail(`Promise should be rejected, but got response:${getDescriptionFromObject(res)}`);
     }, (err: IErrorMessage) => {

@@ -1,6 +1,6 @@
 {
   "name": "connect-ts-promise",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Send and receive promise-based commands using spotware connect-ts-api",
   "main": "lib/connect-ts-promise.ts",
   "types": "lib/connect-ts-promise",
@@ -34,10 +34,10 @@
     "nyc": "10.1.2",
     "ava": "0.18.1",
     "husky": "0.13.1",
-    "connection-adapter": "spotware/connection-adapter#v1.5.0",
+    "connection-adapter": "spotware/connection-adapter#v1.7.0",
     "rxjs": "5.3.0"
   },
   "dependencies": {
-    "connect-ts-api": "spotware/connect-ts-api#v4.1.2"
+    "connect-ts-api": "spotware/connect-ts-api#v4.2.0"
   }
 }

@@ -1,4 +1,4 @@
-import {Connect, Message, SendCommand} from "connect-ts-api";
+import {Connect, IMessage, ISendCommand} from "connect-ts-api";
 
 export * from 'connect-ts-api';
 
@@ -19,10 +19,10 @@ export function getDescriptionFromObject(res: Object): string {
 }
 
 export class ConnectPromise extends Connect {
-    private checkErrorCallback: (messageToCheck: Message) => boolean = () => false;
-    private sendFormattedCommand(messageToSend: Message, guaranteed: boolean): Promise<Message> {
+    private checkErrorCallback: (messageToCheck: IMessage) => boolean = () => false;
+    private sendFormattedCommand(messageToSend: IMessage, guaranteed: boolean): Promise<IMessage> {
         return new Promise((resolve, reject) => {
-            const commandToSend: SendCommand = {
+            const commandToSend: ISendCommand = {
                 message: messageToSend,
                 onResponse: (res) => {
                     if (this.checkErrorCallback(res)) {
@@ -48,15 +48,15 @@ export class ConnectPromise extends Connect {
             this.sendCommand(commandToSend);
         });
     }
-    public sendPromiseCommand(messageToSend: Message): Promise<Message> {
+    public sendPromiseCommand(messageToSend: IMessage): Promise<IMessage> {
         return this.sendFormattedCommand(messageToSend, false);
     }
 
-    public sendPromiseGuaranteedCommand(messageToSend: Message): Promise<Message> {
+    public sendPromiseGuaranteedCommand(messageToSend: IMessage): Promise<IMessage> {
         return this.sendFormattedCommand(messageToSend, true);
     }
 
-    public setErrorChecker(checkCallback: (messageToCheck: Message) => boolean): void {
+    public setErrorChecker(checkCallback: (messageToCheck: IMessage) => boolean): void {
         this.checkErrorCallback = checkCallback;
     }
 }

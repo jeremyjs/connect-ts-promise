@@ -39,7 +39,9 @@ lib/*.js
 spec/**/*.js
 
 # typescript source maps
-#*.js.map
+**/*.js.map
 
 # typescript d.ts
 #lib/*.d.ts
+
+.nyc_output/
