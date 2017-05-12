@@ -16,8 +16,8 @@ ava_1.default.beforeEach(function (t) {
     t.context.adapterState = adapterState;
     var mockAdapter = {
         send: function (data) { },
-        data: adapterDataEmitter,
-        state: adapterState,
+        data$: adapterDataEmitter,
+        state$: adapterState,
         connect: function (url) { }
     };
     var connectPromise = new connect_ts_promise_1.ConnectPromise({ adapter: mockAdapter, instanceId: 'connect-promise-test' });

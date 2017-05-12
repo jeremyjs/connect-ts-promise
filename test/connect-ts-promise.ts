@@ -21,8 +21,8 @@ test.beforeEach(t => {
     t.context.adapterState = adapterState;
     const mockAdapter: IConnectionAdapter = {
         send: (data: IMessageWithId) => {},
-        data: adapterDataEmitter,
-        state: adapterState,
+        data$: adapterDataEmitter,
+        state$: adapterState,
         connect: (url: string) => {}
     };
     const connectPromise = new ConnectPromise({adapter: mockAdapter, instanceId: 'connect-promise-test'});

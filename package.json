@@ -34,10 +34,9 @@
     "nyc": "10.1.2",
     "ava": "0.18.1",
     "husky": "0.13.1",
-    "connection-adapter": "spotware/connection-adapter#v1.7.0",
-    "rxjs": "5.3.0"
+    "connection-adapter": "spotware/connection-adapter#v1.8.0",
+    "rxjs": "5.3.0",
+    "connect-ts-api": "spotware/connect-ts-api#v4.4.0"
   },
-  "dependencies": {
-    "connect-ts-api": "spotware/connect-ts-api#v4.2.0"
-  }
+  "dependencies": {}
 }
