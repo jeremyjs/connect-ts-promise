@@ -118,4 +118,3 @@ ava_1.default('should reject sendGuaranteedCommand if Message type error', funct
     });
     return sendGuaranteedPromise;
 });
-//# sourceMappingURL=connect-ts-promise.js.map
